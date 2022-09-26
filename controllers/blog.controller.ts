@@ -23,8 +23,7 @@ export default class {
 
     static async createBlog(req: Request, res: Response, next: Function) {
         if (!req.body.title || !req.body.content) {
-            const err: Error = new Error("Blog title and content are required.");
-            return next(err)
+            return res.status(400).send("Blog title and content are required.")
         }
         const newBlog = new Blog(
             req.body.title,
@@ -49,7 +48,7 @@ export default class {
         blog.content = req.body.content ? req.body.content : blog.content;
         blog.publish = req.body.publish ? req.body.publish : blog.publish;
         let success = await repo.updateBlog(blog);
-        return res.send({ success, item: req.body });
+        return res.send({ success });
     }
 
     static async publishBlog(req: Request, res: Response, next: Function) {
@@ -57,8 +56,9 @@ export default class {
             return res.status(400).send('Blog id is required')
         }
         const blog = await repo.getBlogById(Number(req.body.id));
+        console.log(blog)
         if (!blog) {
-            const err: Error = new Error("This blog doesn't exist")
+            return res.status(400).send('This blog doesn\'t exist')
         }
         blog.publish = true;
         let success = await repo.updateBlog(blog);
@@ -96,7 +96,7 @@ export default class {
             const err: Error = new Error("Blog id is required.");
             return next(err)
         }
-        if (!req.body.user_id) {
+        if (!req.body.userId) {
             const err: Error = new Error("User id is required.");
             return next(err)
         }
@@ -106,7 +106,7 @@ export default class {
         }
         const newComment = new BlogComments(
             req.body.blog_id,
-            req.body.user_id,
+            req.body.userId,
             req.body.content
         );
         const success = await repo.createComment(newComment);

@@ -32,9 +32,10 @@ export default class {
     }
 
     static async updateBlog(blog: Blog): Promise<boolean> {
-        const stmt = `UPDATE blogs SET title = ?, content = ? user_id = ? publish = ? WHERE id = ?;`
+        console.log(blog)
+        const stmt = `UPDATE blogs SET title = ?, content = ?, user_id = ?, publish = ? WHERE id = ?;`
         try {
-            await dao.run(stmt, [blog.title, blog.content, blog.user_id, blog.publish, blog.id]);
+            await dao.run(stmt, [blog.title, blog.content, Number(blog.user_id), blog.publish, blog.id]);
             return true;
         } catch (err) {
             console.error(err);
