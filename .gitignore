@@ -1,0 +1,17 @@
+# @w3tec
+
+# Logs #
+/logs
+*.log
+*.log*
+
+# Node files #
+node_modules/
+npm-debug.log
+yarn-error.log
+.env
+
+# OS generated files #
+# Dist #
+dist/
+tsconfig.build.json
